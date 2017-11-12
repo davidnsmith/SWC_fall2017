@@ -1,9 +1,1 @@
-To begin tracking changes in git_github/ :
-cd ~/Desktop/SWC_fall2017/
-git add git_github/
-git commit -m "git_github first"
-
-To begin tracking git_steps.txt file:
-gd ~/Desktop/SWC_fall2017/git_github/
-git add git_steps.txt
-git commit -m "git_steps_1"
+Use git init one time
