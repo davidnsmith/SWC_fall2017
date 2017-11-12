@@ -1,0 +1,41 @@
+---
+title: "Introduction to R reports"
+author: "David Smith"
+date: "November 12, 2017"
+output:
+  html_document: default
+  word_document: default
+---
+
+# The relationship between GDP per capita and life expectancy worldwide
+
+**Purpose:** To track the life expectancy of India vs. US over time
+
+1. Load the gapminder data (from url).
+2. Isolated the data from US and India only using ```bash```
+3. Plotted the results.
+
+#### Code blocks:
+
+```{bash, eval=FALSE, echo=FALSE}
+cut -f1,3,4 ../Data/gapminder.txt | grep -E "United_States|India|country" > us_india_lifexp.txt
+```
+
+```{r load_data, echo=FALSE}
+gapminder <- read.table("../us_india_lifexp.txt", header=TRUE)
+```
+
+```{r load_pkgs, echo=FALSE}
+library(ggplot2)
+library(dplyr)
+```
+
+```{r load_plot}
+ggplot(data = gapminder, aes(x = year, y = lifeExp, color = country)) +
+  geom_point() +
+  geom_line() +
+  theme(legend.position="right") +
+  labs(x = "Year",
+       y = "Life Expectancy",
+       title = "Figure 1.")
+```

@@ -1,0 +1,18 @@
+pwd
+ls
+cd
+whoami
+
+touch (make new file)
+mkdir (make new directory)
+cat (view text file)
+mv (rename or move)
+cp (copy)
+	-r for recursive (directories & everything in them)
+rm (remove)
+	-r for recursive (directories & everything in them)
+
+
+wc <file>
+	lines	words	characters
+

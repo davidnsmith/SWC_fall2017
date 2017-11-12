@@ -1,0 +1,392 @@
+<!DOCTYPE html>
+
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black">
+    <meta name="mobile-web-app-capable" content="yes">
+    <title>
+        Software Carpentry Workshop: Lesson4: Data visualization with ggplot2 - HackMD
+    </title>
+    <link rel="icon" type="image/png" href="https://hackmd.io/favicon.png">
+    <link rel="apple-touch-icon" href="https://hackmd.io/apple-touch-icon.png">
+
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha256-916EbMg70RQy9LHiGkXzG8hSg9EdNy97GazNG/aiY1w=" crossorigin="anonymous" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" integrity="sha256-eZrrJcwDc/3uDhsdt61sL2oOBY362qM3lon1gyExkL0=" crossorigin="anonymous" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/ionicons/2.0.1/css/ionicons.min.css" integrity="sha256-3iu9jgsy9TpTwXKb7bNQzqWekRX7pPK+2OLj3R922fo=" crossorigin="anonymous" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/octicons/3.5.0/octicons.min.css" integrity="sha256-QiWfLIsCT02Sdwkogf6YMiQlj4NE84MKkzEMkZnMGdg=" crossorigin="anonymous" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.5.1/themes/prism.min.css" integrity="sha256-vtR0hSWRc3Tb26iuN2oZHt3KRUomwTufNIf5/4oeCyg=" crossorigin="anonymous" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.7.0/styles/github-gist.min.css" integrity="sha256-tAflq+ymku3Khs+I/WcAneIlafYgDiOQ9stIHH985Wo=" crossorigin="anonymous" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/emojify.js/1.1.0/css/basic/emojify.min.css" integrity="sha256-UOrvMOsSDSrW6szVLe8ZDZezBxh5IoIfgTwdNDgTjiU=" crossorigin="anonymous" />
+    <style>
+        @import url(https://fonts.googleapis.com/css?family=Source+Sans+Pro:400,400italic,600,600italic,300italic,300|Source+Serif+Pro|Source+Code+Pro:400,300,500&subset=latin,latin-ext);.markdown-body{font-family:-apple-system,BlinkMacSystemFont,Segoe UI,Roboto,Helvetica,Arial,sans-serif;font-size:16px;line-height:1.5;word-wrap:break-word}.markdown-body:after,.markdown-body:before{display:table;content:""}.markdown-body:after{clear:both}.markdown-body>:first-child{margin-top:0!important}.markdown-body>:last-child{margin-bottom:0!important}.markdown-body a:not([href]){color:inherit;text-decoration:none}.markdown-body .absent{color:#c00}.markdown-body .anchor{float:left;padding-right:4px;margin-left:-20px;line-height:1}.markdown-body .anchor:focus{outline:none}.markdown-body blockquote,.markdown-body dl,.markdown-body ol,.markdown-body p,.markdown-body pre,.markdown-body table,.markdown-body ul{margin-top:0;margin-bottom:16px}.markdown-body hr{height:.25em;padding:0;margin:24px 0;background-color:#e7e7e7;border:0}.markdown-body blockquote{padding:0 1em;color:#777;border-left:.25em solid #ddd}.markdown-body blockquote>:first-child{margin-top:0}.markdown-body blockquote>:last-child{margin-bottom:0}.markdown-body .loweralpha{list-style-type:lower-alpha}.markdown-body h1,.markdown-body h2,.markdown-body h3,.markdown-body h4,.markdown-body h5,.markdown-body h6{margin-top:24px;margin-bottom:16px;font-weight:600;line-height:1.25}.markdown-body h1 .octicon-link,.markdown-body h2 .octicon-link,.markdown-body h3 .octicon-link,.markdown-body h4 .octicon-link,.markdown-body h5 .octicon-link,.markdown-body h6 .octicon-link{color:#000;vertical-align:middle;visibility:hidden}.markdown-body h1:hover .anchor,.markdown-body h2:hover .anchor,.markdown-body h3:hover .anchor,.markdown-body h4:hover .anchor,.markdown-body h5:hover .anchor,.markdown-body h6:hover .anchor{text-decoration:none}.markdown-body h1:hover .anchor .octicon-link,.markdown-body h2:hover .anchor .octicon-link,.markdown-body h3:hover .anchor .octicon-link,.markdown-body h4:hover .anchor .octicon-link,.markdown-body h5:hover .anchor .octicon-link,.markdown-body h6:hover .anchor .octicon-link{visibility:visible}.markdown-body h1 code,.markdown-body h1 tt,.markdown-body h2 code,.markdown-body h2 tt,.markdown-body h3 code,.markdown-body h3 tt,.markdown-body h4 code,.markdown-body h4 tt,.markdown-body h5 code,.markdown-body h5 tt,.markdown-body h6 code,.markdown-body h6 tt{font-size:inherit}.markdown-body h1{font-size:2em}.markdown-body h1,.markdown-body h2{padding-bottom:.3em;border-bottom:1px solid #eee}.markdown-body h2{font-size:1.5em}.markdown-body h3{font-size:1.25em}.markdown-body h4{font-size:1em}.markdown-body h5{font-size:.875em}.markdown-body h6{font-size:.85em;color:#777}.markdown-body ol,.markdown-body ul{padding-left:2em}.markdown-body ol.no-list,.markdown-body ul.no-list{padding:0;list-style-type:none}.markdown-body ol ol,.markdown-body ol ul,.markdown-body ul ol,.markdown-body ul ul{margin-top:0;margin-bottom:0}.markdown-body li>p{margin-top:16px}.markdown-body li+li{margin-top:.25em}.markdown-body dl{padding:0}.markdown-body dl dt{padding:0;margin-top:16px;font-size:1em;font-style:italic;font-weight:700}.markdown-body dl dd{padding:0 16px;margin-bottom:16px}.markdown-body table{display:block;width:100%;overflow:auto;word-break:normal;word-break:keep-all}.markdown-body table th{font-weight:700}.markdown-body table td,.markdown-body table th{padding:6px 13px;border:1px solid #ddd}.markdown-body table tr{background-color:#fff;border-top:1px solid #ccc}.markdown-body table tr:nth-child(2n){background-color:#f8f8f8}.markdown-body img{max-width:100%;box-sizing:content-box;background-color:#fff}.markdown-body img[align=right]{padding-left:20px}.markdown-body img[align=left]{padding-right:20px}.markdown-body .emoji{max-width:none;vertical-align:text-top;background-color:transparent}.markdown-body span.frame{display:block;overflow:hidden}.markdown-body span.frame>span{display:block;float:left;width:auto;padding:7px;margin:13px 0 0;overflow:hidden;border:1px solid #ddd}.markdown-body span.frame span img{display:block;float:left}.markdown-body span.frame span span{display:block;padding:5px 0 0;clear:both;color:#333}.markdown-body span.align-center{display:block;overflow:hidden;clear:both}.markdown-body span.align-center>span{display:block;margin:13px auto 0;overflow:hidden;text-align:center}.markdown-body span.align-center span img{margin:0 auto;text-align:center}.markdown-body span.align-right{display:block;overflow:hidden;clear:both}.markdown-body span.align-right>span{display:block;margin:13px 0 0;overflow:hidden;text-align:right}.markdown-body span.align-right span img{margin:0;text-align:right}.markdown-body span.float-left{display:block;float:left;margin-right:13px;overflow:hidden}.markdown-body span.float-left span{margin:13px 0 0}.markdown-body span.float-right{display:block;float:right;margin-left:13px;overflow:hidden}.markdown-body span.float-right>span{display:block;margin:13px auto 0;overflow:hidden;text-align:right}.markdown-body code,.markdown-body tt{padding:0;padding-top:.2em;padding-bottom:.2em;margin:0;font-size:85%;background-color:rgba(0,0,0,.04);border-radius:3px}.markdown-body code:after,.markdown-body code:before,.markdown-body tt:after,.markdown-body tt:before{letter-spacing:-.2em;content:"\A0"}.markdown-body code br,.markdown-body tt br{display:none}.markdown-body del code{text-decoration:inherit}.markdown-body pre{word-wrap:normal}.markdown-body pre>code{padding:0;margin:0;font-size:100%;word-break:normal;white-space:pre;background:transparent;border:0}.markdown-body .highlight{margin-bottom:16px}.markdown-body .highlight pre{margin-bottom:0;word-break:normal}.markdown-body .highlight pre,.markdown-body pre{padding:16px;overflow:auto;font-size:85%;line-height:1.45;background-color:#f7f7f7;border-radius:3px}.markdown-body pre code,.markdown-body pre tt{display:inline;max-width:auto;padding:0;margin:0;overflow:visible;line-height:inherit;word-wrap:normal;background-color:transparent;border:0}.markdown-body pre code:after,.markdown-body pre code:before,.markdown-body pre tt:after,.markdown-body pre tt:before{content:normal}.markdown-body .csv-data td,.markdown-body .csv-data th{padding:5px;overflow:hidden;font-size:12px;line-height:1;text-align:left;white-space:nowrap}.markdown-body .csv-data .blob-line-num{padding:10px 8px 9px;text-align:right;background:#fff;border:0}.markdown-body .csv-data tr{border-top:0}.markdown-body .csv-data th{font-weight:700;background:#f8f8f8;border-top:0}.markdown-body kbd{display:inline-block;padding:3px 5px;font-size:11px;line-height:10px;color:#555;vertical-align:middle;background-color:#fcfcfc;border:1px solid #ccc;border-bottom-color:#bbb;border-radius:3px;box-shadow:inset 0 -1px 0 #bbb}.news .alert .markdown-body blockquote{padding:0 0 0 40px;border:0 none}.activity-tab .news .alert .commits,.activity-tab .news .markdown-body blockquote{padding-left:0}.task-list-item{list-style-type:none}.task-list-item label{font-weight:400}.task-list-item.enabled label{cursor:pointer}.task-list-item+.task-list-item{margin-top:3px}.task-list-item-checkbox{float:left;margin:.31em 0 .2em -1.3em!important;vertical-align:middle;cursor:default!important}.markdown-body{font-family:-apple-system,BlinkMacSystemFont,Segoe UI,Roboto,Helvetica Neue,Helvetica,Arial,sans-serif;padding-top:40px;padding-bottom:40px;max-width:758px;overflow:visible!important}.markdown-body pre{border:inherit!important}.markdown-body code{color:inherit!important}.markdown-body pre code .wrapper{display:-moz-inline-flex;display:-ms-inline-flex;display:-o-inline-flex;display:inline-flex}.markdown-body pre code .gutter{float:left;overflow:hidden;-webkit-user-select:none;user-select:none}.markdown-body pre code .gutter.linenumber{text-align:right;position:relative;display:inline-block;cursor:default;z-index:4;padding:0 8px 0 0;min-width:20px;box-sizing:content-box;color:#afafaf!important;border-right:3px solid #6ce26c!important}.markdown-body pre code .gutter.linenumber>span:before{content:attr(data-linenumber)}.markdown-body pre code .code{float:left;margin:0 0 0 16px}.markdown-body .gist .line-numbers{border-left:none;border-top:none;border-bottom:none}.markdown-body .gist .line-data{border:none}.markdown-body .gist table{border-spacing:0;border-collapse:inherit!important}.markdown-body code[data-gist-id]{background:none;padding:0}.markdown-body code[data-gist-id]:after,.markdown-body code[data-gist-id]:before{content:""}.markdown-body code[data-gist-id] .blob-num{border:unset}.markdown-body code[data-gist-id] table{overflow:unset;margin-bottom:unset}.markdown-body code[data-gist-id] table tr{background:unset}.markdown-body[dir=rtl] pre{direction:ltr}.markdown-body[dir=rtl] code{direction:ltr;unicode-bidi:embed}.markdown-body .alert>p{margin-bottom:0}.markdown-body pre.abc,.markdown-body pre.flow-chart,.markdown-body pre.graphviz,.markdown-body pre.mermaid,.markdown-body pre.sequence-diagram{text-align:center;background-color:inherit;border-radius:0;white-space:inherit}.markdown-body pre.abc>code,.markdown-body pre.flow-chart>code,.markdown-body pre.graphviz>code,.markdown-body pre.mermaid>code,.markdown-body pre.sequence-diagram>code{text-align:left}.markdown-body pre.abc>svg,.markdown-body pre.flow-chart>svg,.markdown-body pre.graphviz>svg,.markdown-body pre.mermaid>svg,.markdown-body pre.sequence-diagram>svg{max-width:100%;height:100%}.markdown-body pre>code.wrap{white-space:pre-wrap;white-space:-moz-pre-wrap;white-space:-pre-wrap;white-space:-o-pre-wrap;word-wrap:break-word}.markdown-body .alert>p,.markdown-body .alert>ul{margin-bottom:0}.vimeo,.youtube{cursor:pointer;display:table;text-align:center;background-position:50%;background-repeat:no-repeat;background-size:contain;background-color:#000;overflow:hidden}.vimeo,.youtube{position:relative;width:100%}.youtube{padding-bottom:56.25%}.vimeo img{width:100%;object-fit:contain;z-index:0}.youtube img{object-fit:cover;z-index:0}.vimeo iframe,.youtube iframe,.youtube img{width:100%;height:100%;position:absolute;top:0;left:0}.vimeo iframe,.youtube iframe{vertical-align:middle;z-index:1}.vimeo .icon,.youtube .icon{position:absolute;height:auto;width:auto;top:50%;left:50%;transform:translate(-50%,-50%);color:#fff;opacity:.3;transition:opacity .2s;z-index:0}.vimeo:hover .icon,.youtube:hover .icon{opacity:.6;transition:opacity .2s}.slideshare .inner,.speakerdeck .inner{position:relative;width:100%}.slideshare .inner iframe,.speakerdeck .inner iframe{position:absolute;top:0;bottom:0;left:0;right:0;width:100%;height:100%}.MJX_Assistive_MathML{display:none}.ui-infobar{position:relative;z-index:2;max-width:758px;margin-top:25px;margin-bottom:-25px;color:#777}.ui-toc{position:fixed;bottom:20px;z-index:10000}.ui-toc-label{opacity:.3;background-color:#ccc;border:none;transition:opacity .2s}.ui-toc .open .ui-toc-label{opacity:1;color:#fff;transition:opacity .2s}.ui-toc-label:focus{opacity:.3;background-color:#ccc;color:#000}.ui-toc-label:hover{opacity:1;background-color:#ccc;transition:opacity .2s}.ui-toc-dropdown{margin-top:23px;margin-bottom:20px;padding-left:10px;padding-right:10px;max-width:45vw;width:25vw;max-height:70vh;overflow:auto;text-align:inherit}.ui-toc-dropdown>.toc{max-height:calc(70vh - 100px);overflow:auto}.ui-toc-dropdown[dir=rtl] .nav{padding-right:0;letter-spacing:.0029em}.ui-toc-dropdown a{overflow:hidden;text-overflow:ellipsis;white-space:pre}.ui-toc-dropdown .nav>li>a{display:block;padding:4px 20px;font-size:13px;font-weight:500;color:#767676}.ui-toc-dropdown .nav>li:first-child:last-child > ul,.ui-toc-dropdown .toc.expand ul{display:block}.ui-toc-dropdown .nav>li>a:focus,.ui-toc-dropdown .nav>li>a:hover{padding-left:19px;color:#000;text-decoration:none;background-color:transparent;border-left:1px solid #000}.ui-toc-dropdown[dir=rtl] .nav>li>a:focus,.ui-toc-dropdown[dir=rtl] .nav>li>a:hover{padding-right:19px;border-left:none;border-right:1px solid #000}.ui-toc-dropdown .nav>.active:focus>a,.ui-toc-dropdown .nav>.active:hover>a,.ui-toc-dropdown .nav>.active>a{padding-left:18px;font-weight:700;color:#000;background-color:transparent;border-left:2px solid #000}.ui-toc-dropdown[dir=rtl] .nav>.active:focus>a,.ui-toc-dropdown[dir=rtl] .nav>.active:hover>a,.ui-toc-dropdown[dir=rtl] .nav>.active>a{padding-right:18px;border-left:none;border-right:2px solid #000}.ui-toc-dropdown .nav .nav{display:none;padding-bottom:10px}.ui-toc-dropdown .nav>.active>ul{display:block}.ui-toc-dropdown .nav .nav>li>a{padding-top:1px;padding-bottom:1px;padding-left:30px;font-size:12px;font-weight:400}.ui-toc-dropdown[dir=rtl] .nav .nav>li>a{padding-right:30px}.ui-toc-dropdown .nav .nav>li>ul>li>a{padding-top:1px;padding-bottom:1px;padding-left:40px;font-size:12px;font-weight:400}.ui-toc-dropdown[dir=rtl] .nav .nav>li>ul>li>a{padding-right:40px}.ui-toc-dropdown .nav .nav>li>a:focus,.ui-toc-dropdown .nav .nav>li>a:hover{padding-left:29px}.ui-toc-dropdown[dir=rtl] .nav .nav>li>a:focus,.ui-toc-dropdown[dir=rtl] .nav .nav>li>a:hover{padding-right:29px}.ui-toc-dropdown .nav .nav>li>ul>li>a:focus,.ui-toc-dropdown .nav .nav>li>ul>li>a:hover{padding-left:39px}.ui-toc-dropdown[dir=rtl] .nav .nav>li>ul>li>a:focus,.ui-toc-dropdown[dir=rtl] .nav .nav>li>ul>li>a:hover{padding-right:39px}.ui-toc-dropdown .nav .nav>.active:focus>a,.ui-toc-dropdown .nav .nav>.active:hover>a,.ui-toc-dropdown .nav .nav>.active>a{padding-left:28px;font-weight:500}.ui-toc-dropdown[dir=rtl] .nav .nav>.active:focus>a,.ui-toc-dropdown[dir=rtl] .nav .nav>.active:hover>a,.ui-toc-dropdown[dir=rtl] .nav .nav>.active>a{padding-right:28px}.ui-toc-dropdown .nav .nav>.active>.nav>.active:focus>a,.ui-toc-dropdown .nav .nav>.active>.nav>.active:hover>a,.ui-toc-dropdown .nav .nav>.active>.nav>.active>a{padding-left:38px;font-weight:500}.ui-toc-dropdown[dir=rtl] .nav .nav>.active>.nav>.active:focus>a,.ui-toc-dropdown[dir=rtl] .nav .nav>.active>.nav>.active:hover>a,.ui-toc-dropdown[dir=rtl] .nav .nav>.active>.nav>.active>a{padding-right:38px}.markdown-body[lang^=ja]{font-family:-apple-system,BlinkMacSystemFont,Segoe UI,Roboto,Helvetica Neue,Helvetica,Arial,Hiragino Kaku Gothic Pro,\\30D2\30E9\30AE\30CE\89D2\30B4 Pro W3,Osaka,Meiryo,\\30E1\30A4\30EA\30AA,MS Gothic,"\FF2D\FF33   \30B4\30B7\30C3\30AF",sans-serif}.ui-toc-dropdown[lang^=ja]{font-family:Source Sans Pro,Helvetica,Arial,Meiryo UI,MS PGothic,"\FF2D\FF33   \FF30\30B4\30B7\30C3\30AF",sans-serif}.markdown-body[lang=zh-tw]{font-family:-apple-system,BlinkMacSystemFont,Segoe UI,Roboto,Helvetica Neue,Helvetica,Arial,PingFang TC,Microsoft JhengHei,\\5FAE\8EDF\6B63\9ED1,sans-serif}.ui-toc-dropdown[lang=zh-tw]{font-family:Source Sans Pro,Helvetica,Arial,Microsoft JhengHei UI,\\5FAE\8EDF\6B63\9ED1UI,sans-serif}.markdown-body[lang=zh-cn]{font-family:-apple-system,BlinkMacSystemFont,Segoe UI,Roboto,Helvetica Neue,Helvetica,Arial,PingFang SC,Microsoft YaHei,\\5FAE\8F6F\96C5\9ED1,sans-serif}.ui-toc-dropdown[lang=zh-cn]{font-family:Source Sans Pro,Helvetica,Arial,Microsoft YaHei UI,\\5FAE\8F6F\96C5\9ED1UI,sans-serif}.ui-affix-toc{position:fixed;top:0;max-width:15vw;max-height:70vh;overflow:auto}.back-to-top,.expand-toggle,.go-to-bottom{display:block;padding:4px 10px;margin-top:10px;margin-left:10px;font-size:12px;font-weight:500;color:#999}.back-to-top:focus,.back-to-top:hover,.expand-toggle:focus,.expand-toggle:hover,.go-to-bottom:focus,.go-to-bottom:hover{color:#563d7c;text-decoration:none}.back-to-top,.go-to-bottom{margin-top:0}.ui-user-icon{width:20px;height:20px;display:block;border-radius:3px;margin-top:2px;margin-bottom:2px;margin-right:5px;background-position:50%;background-repeat:no-repeat;background-size:contain}.ui-user-icon.small{width:18px;height:18px;display:inline-block;vertical-align:middle;margin:0 0 .2em}.ui-infobar>small>span{line-height:22px}.ui-infobar>small .dropdown{display:inline-block}.ui-infobar>small .dropdown a:focus,.ui-infobar>small .dropdown a:hover{text-decoration:none}.unselectable{-moz-user-select:none;-webkit-user-select:none;-o-user-select:none;user-select:none}@media print{blockquote,div,img,pre,table{page-break-inside:avoid!important}a[href]:after{font-size:12px!important}}.markdown-body.slides{position:relative;z-index:1;color:#222}.markdown-body.slides:before{content:"";display:block;position:absolute;top:0;left:0;right:0;bottom:0;z-index:-1;background-color:currentColor;box-shadow:0 0 0 50vw}.markdown-body.slides section[data-markdown]{position:relative;margin-bottom:1.5em;background-color:#fff;text-align:center}.markdown-body.slides section[data-markdown] code{text-align:left}.markdown-body.slides section[data-markdown]:before{content:"";display:block;padding-bottom:56.23%}.markdown-body.slides section[data-markdown]>div:first-child{position:absolute;top:50%;left:1em;right:1em;transform:translateY(-50%);max-height:100%;overflow:hidden}.markdown-body.slides section[data-markdown]>ul{display:inline-block}.markdown-body.slides>section>section+section:after{content:"";position:absolute;top:-1.5em;right:1em;height:1.5em;border:3px solid #777}body{font-smoothing:subpixel-antialiased!important;-webkit-font-smoothing:subpixel-antialiased!important;-moz-osx-font-smoothing:auto!important;text-shadow:0 0 1em transparent,1px 1px 1.2px rgba(0,0,0,.004);-webkit-overflow-scrolling:touch;font-family:Source Sans Pro,Helvetica,Arial,sans-serif;letter-spacing:.025em}.focus,:focus{outline:none!important}::-moz-focus-inner{border:0!important}body.modal-open{overflow-y:auto;padding-right:0!important}
+    </style>
+    <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+    	<script src="https://cdnjs.cloudflare.com/ajax/libs/html5shiv/3.7.3/html5shiv.min.js" integrity="sha256-3Jy/GbSLrg0o9y5Z5n1uw0qxZECH7C6OQpVBgNFYa0g=" crossorigin="anonymous"></script>
+    	<script src="https://cdnjs.cloudflare.com/ajax/libs/respond.js/1.4.2/respond.min.js" integrity="sha256-g6iAfvZp+nDQ2TdTR/VVKJf3bGro4ub5fvWSWVRi2NE=" crossorigin="anonymous"></script>
+		<script src="https://cdnjs.cloudflare.com/ajax/libs/es5-shim/4.5.9/es5-shim.min.js" integrity="sha256-8E4Is26QH0bD52WoQpcB+R/tcWQtpzlCojrybUd7Mxo=" crossorigin="anonymous"></script>
+    <![endif]-->
+</head>
+
+<body>
+    <div id="doc" class="markdown-body container-fluid"><h1 id="software-carpentry-workshop-lesson4-data-visualization-with-ggplot2"><a class="anchor hidden-xs" href="#software-carpentry-workshop-lesson4-data-visualization-with-ggplot2" title="software-carpentry-workshop-lesson4-data-visualization-with-ggplot2"><span class="octicon octicon-link"></span></a>Software Carpentry Workshop: Lesson4: Data visualization with ggplot2</h1><p>Instructor: Daren<br>
+Time: 1.5 hours</p><h2 id="introduction"><a class="anchor hidden-xs" href="#introduction" title="introduction"><span class="octicon octicon-link"></span></a>Introduction</h2><p>R is one of the most powerful pieces of software for visualizing data. It is even possible to produce publication-quality graphics quite easily and reproducibly. Today, we will give you a flavor of some of the quality plotting you can produce quite readily using the <code>R</code> package <a href="http://ggplot2.tidyverse.org/" target="_blank"><code>ggplot2</code></a>. <code>ggplot2</code> is perhaps the best piece of software for intuitively producing high-quality figures, regardless of programming language (with some packages in <code>Python</code> probably being second best). We will continue using the <strong>gapminder</strong> dataset and will visualize some of the trends in these data in R with <code>ggplot2</code>. Check out some of the interesting dynamic plots available from the <a href="https://www.gapminder.org/tools/#_chart-type=mountain" target="_blank">gapminder website</a>. By the end of this lesson you will know the basic principles necessary to produce similar, static versions of many of the example plots you are looking at.</p><p>Note: This lesson is modified from the <a href="https://swcarpentry.github.io/r-novice-gapminder/08-plot-ggplot2/" target="_blank">Software Carpentry workshop on data visualization in R</a>.</p><h2 id="objectives"><a class="anchor hidden-xs" href="#objectives" title="objectives"><span class="octicon octicon-link"></span></a>Objectives</h2><ul>
+<li>To be able to use <code>ggplot2</code> to generate publication quality graphics.</li>
+<li>To understand the basic <em>grammar of graphics</em>, including the aesthetics and geometry layers, adding statistics, transforming scales, and coloring or panelling by groups.</li>
+</ul><h4 id="keypoints"><a class="anchor hidden-xs" href="#keypoints" title="keypoints"><span class="octicon octicon-link"></span></a>Keypoints</h4><ul>
+<li>Use <code>ggplot2</code> to create plots.</li>
+<li>Think about graphics in layers: aesthetics, geometry, statistics, scale transformation, and grouping.</li>
+</ul><hr><h2 id="background"><a class="anchor hidden-xs" href="#background" title="background"><span class="octicon octicon-link"></span></a>Background</h2><p>Plotting our data is one of the best ways to quickly explore it and the various relationships between variables.</p><p>There are three main plotting systems in R, the <a href="http://www.statmethods.net/graphs/" target="_blank">base plotting system</a>, the <a href="http://www.statmethods.net/advgraphs/trellis.html" target="_blank">lattice</a> package, and the <a href="http://www.statmethods.net/advgraphs/ggplot2.html" target="_blank">ggplot2</a> package.</p><p>Today we’ll be learning about the <code>ggplot2</code> package, because it is the most effective for creating publication quality graphics.</p><p><code>ggplot2</code> is built on the <em>grammar of graphics</em>, the idea that any plot can be<br>
+expressed from the same set of components: a <strong>data</strong> set, a <strong>coordinate system</strong>, and a set of <strong>geoms</strong>–the visual representation of data points.</p><p>The key to understanding <code>ggplot2</code> is thinking about a figure in layers. This idea may be familiar to you if you have used image editing programs like Photoshop, Illustrator, or Inkscape.</p><h2 id="quickstart"><a class="anchor hidden-xs" href="#quickstart" title="quickstart"><span class="octicon octicon-link"></span></a>Quickstart</h2><p>We must first make sure our <strong>gapminder</strong> dataset has been loaded into <code>R</code>, if it isn’t already.</p><pre><code class="{r hljs"><span class="hljs-attribute">gapminder</span> &lt;- read.table(<span class="hljs-string">"~/Desktop/swc_nov2017/Data/gapminder.txt"</span>, header=TRUE, sep=<span class="hljs-string">"\t"</span>)
+</code></pre><p>Let’s start off with an example:</p><pre><code class="{r hljs"><span class="hljs-attribute">library</span>(<span class="hljs-string">"ggplot2"</span>)
+<span class="hljs-attribute">ggplot</span>(data = gapminder, aes(x = gdpPercap, y = lifeExp)) +
+  <span class="hljs-attribute">geom_point</span>()
+</code></pre><p>So the first thing we do is call the <code>ggplot</code> function. This function lets R know that we’re creating a new plot, and any of the arguments we give the <code>ggplot</code> function are the <em>global</em> options for the plot: they apply to all layers on the plot.</p><p>We’ve passed in two arguments to <code>ggplot</code>. First, we tell <code>ggplot</code> what data we want to show on our figure, in this example the gapminder data we read in earlier. For the second argument we passed in the <code>aes</code> function, which tells <code>ggplot</code> how variables in the <strong>data</strong> map to <em>aesthetic</em> properties of the figure, in this case the <strong>x</strong> and <strong>y</strong> locations. Here we told <code>ggplot</code> we want to plot the “gdpPercap” column of the gapminder data frame on the x-axis, and the “lifeExp” column on the y-axis. Notice that we didn’t need to explicitly pass <code>aes</code> these columns (e.g. <code>x = gapminder[, "gdpPercap"]</code>), this is because <code>ggplot</code> is smart enough to know to look in the <strong>data</strong> for that column!</p><p>By itself, the call to <code>ggplot</code> isn’t enough to draw a figure:</p><pre><code class="{r} hljs">ggplot(data = gapminder, aes(x = gdpPercap, y = lifeExp))
+</code></pre><p>We need to tell <code>ggplot</code> how we want to visually represent the data, which we do by adding a new <strong>geom</strong> layer. In our example, we used <code>geom_point</code>, which tells <code>ggplot</code> we want to visually represent the relationship between <strong>x</strong> and <strong>y</strong> as a scatterplot of points:</p><pre><code class="{r hljs">ggplot(data = gapminder, aes(x = gdpPercap, y = lifeExp)) +
+  geom_point()
+</code></pre><blockquote>
+<h3 id="challenge-1"><a class="anchor hidden-xs" href="#challenge-1" title="challenge-1"><span class="octicon octicon-link"></span></a>Challenge 1</h3>
+<p>Modify the example so that the figure shows how life expectancy has changed over time:</p>
+<pre><code class="{r, hljs">ggplot(data = gapminder, aes(x = gdpPercap, y = lifeExp)) + geom_point()
+</code></pre>
+<p>Hint: the gapminder dataset has a column called “year”, which should appear on the x-axis.</p>
+<blockquote>
+<h4 id="solution-to-challenge-1"><a class="anchor hidden-xs" href="#solution-to-challenge-1" title="solution-to-challenge-1"><span class="octicon octicon-link"></span></a>Solution to challenge 1</h4>
+<p>Here is one possible solution:</p>
+<pre><code class="{r hljs">ggplot(data = gapminder, aes(x = year, y = lifeExp)) + geom_point()
+</code></pre>
+</blockquote>
+<h3 id="challenge-2"><a class="anchor hidden-xs" href="#challenge-2" title="challenge-2"><span class="octicon octicon-link"></span></a>Challenge 2</h3>
+<p>In the previous examples and challenge we’ve used the <code>aes</code> function to tell the scatterplot <strong>geom</strong> about the <strong>x</strong> and <strong>y</strong> locations of each point. Another <em>aesthetic</em> property we can modify is the point <em>color</em>. Modify the code from the previous challenge to <strong>color</strong> the points by the “continent” column. What trends do you see in the data? Are they what you expected?</p>
+<blockquote>
+<h4 id="solution-to-challenge-2"><a class="anchor hidden-xs" href="#solution-to-challenge-2" title="solution-to-challenge-2"><span class="octicon octicon-link"></span></a>Solution to challenge 2</h4>
+<p>In the previous examples and challenge we’ve used the <code>aes</code> function to tell the scatterplot <strong>geom</strong> about the <strong>x</strong> and <strong>y</strong> locations of each point. Another <em>aesthetic</em> property we can modify is the point <em>color</em>. Modify the code from the previous challenge to <strong>color</strong> the points by the “continent” column. What trends do you see in the data? Are they what you expected?</p>
+<pre><code class="{r hljs">ggplot(data = gapminder, aes(x = year, y = lifeExp, color=continent)) +
+  geom_point()
+</code></pre>
+</blockquote>
+</blockquote><h2 id="layers"><a class="anchor hidden-xs" href="#layers" title="layers"><span class="octicon octicon-link"></span></a>Layers</h2><p>Using a scatterplot probably isn’t the best for visualizing change over time. Instead, let’s tell <code>ggplot</code> to visualize the data as a line plot:</p><pre><code class="{r hljs">ggplot(data = gapminder, aes(x=year, y=lifeExp, <span class="hljs-keyword">by</span>=country, color=continent)) +
+  geom_line()
+</code></pre><p>Instead of adding a <code>geom_point</code> layer, we’ve added a <code>geom_line</code> layer. We’ve added the <strong>by</strong> <em>aesthetic</em>, which tells <code>ggplot</code> to draw a line for each country.</p><p>But what if we want to visualize both lines and points on the plot? We can simply add another layer to the plot:</p><pre><code class="{r hljs">ggplot(data = gapminder, aes(x=year, y=lifeExp, <span class="hljs-keyword">by</span>=country, color=continent)) +
+  geom_line() + geom_point()
+</code></pre><p>It’s important to note that each layer is drawn on top of the previous layer. In this example, the points have been drawn <em>on top of</em> the lines. Here’s a demonstration:</p><pre><code class="{r hljs">ggplot(data = gapminder, aes(x=year, y=lifeExp, <span class="hljs-keyword">by</span>=country)) +
+  geom_line(aes(color=continent)) + geom_point()
+</code></pre><p>In this example, the <em>aesthetic</em> mapping of <strong>color</strong> has been moved from the global plot options in <code>ggplot</code> to the <code>geom_line</code> layer so it no longer applies to the points. Now we can clearly see that the points are drawn on top of the lines.</p><blockquote>
+<h3 id="tip-setting-an-aesthetic-to-a-value-instead-of-a-mapping"><a class="anchor hidden-xs" href="#tip-setting-an-aesthetic-to-a-value-instead-of-a-mapping" title="tip-setting-an-aesthetic-to-a-value-instead-of-a-mapping"><span class="octicon octicon-link"></span></a>Tip: Setting an aesthetic to a value instead of a mapping</h3>
+<p>So far, we’ve seen how to use an aesthetic (such as <strong>color</strong>) as a <em>mapping</em> to a variable in the data. For example, when we use <code>geom_line(aes(color=continent))</code>, ggplot will give a different color to each continent. But what if we want to change the colour of all lines to blue? You may think that <code>geom_line(aes(color="blue"))</code> should work, but it doesn’t. Since we don’t want to create a mapping to a specific variable, we simply move the color specification outside of the <code>aes()</code> function, like this: <code>geom_line(color="blue")</code>.</p>
+</blockquote><blockquote>
+<h3 id="challenge-3"><a class="anchor hidden-xs" href="#challenge-3" title="challenge-3"><span class="octicon octicon-link"></span></a>Challenge 3</h3>
+<p>Switch the order of the point and line layers from the previous example. What happened?</p>
+<blockquote>
+<h4 id="solution-to-challenge-3"><a class="anchor hidden-xs" href="#solution-to-challenge-3" title="solution-to-challenge-3"><span class="octicon octicon-link"></span></a>Solution to challenge 3</h4>
+<p>Switch the order of the point and line layers from the previous example. What happened?</p>
+<pre><code class="{r hljs">ggplot(data = gapminder, aes(x=year, y=lifeExp, <span class="hljs-keyword">by</span>=country)) +
+ geom_point() + geom_line(aes(color=continent))
+</code></pre>
+<p>The lines now get drawn over the points!</p>
+</blockquote>
+</blockquote><h2 id="transformations-and-statistics"><a class="anchor hidden-xs" href="#transformations-and-statistics" title="transformations-and-statistics"><span class="octicon octicon-link"></span></a>Transformations and statistics</h2><p><code>ggplot</code> also makes it easy to overlay statistical models over the data. To demonstrate we’ll go back to our first example:</p><pre><code class="{r hljs">ggplot(data = gapminder, aes(x = gdpPercap, y = lifeExp, color=continent)) +
+  geom_point()
+</code></pre><p>Currently it’s hard to see the relationship between the points due to some strong outliers in GDP per capita. We can change the scale of units on the x axis using the <em>scale</em> functions. These control the mapping between the data values and visual values of an aesthetic. We can also modify the transparency of the points, using the <em>alpha</em> function, which is especially helpful when you have a large amount of data which is very clustered.</p><pre><code class="{r hljs">ggplot(data = gapminder, aes(x = gdpPercap, y = lifeExp)) +
+  geom_point(alpha = 0.5) + scale_x_log10()
+</code></pre><p>The <code>log10</code> function applied a transformation to the values of the gdpPercap column before rendering them on the plot, so that each multiple of 10 now only corresponds to an increase in 1 on the transformed scale, e.g. a GDP per capita of 1,000 is now 3 on the y axis, a value of 10,000 corresponds to 4 on the y axis and so on. This makes it easier to visualize the spread of data on the x-axis.</p><blockquote>
+<h3 id="tip-reminder-setting-an-aesthetic-to-a-value-instead-of-a-mapping"><a class="anchor hidden-xs" href="#tip-reminder-setting-an-aesthetic-to-a-value-instead-of-a-mapping" title="tip-reminder-setting-an-aesthetic-to-a-value-instead-of-a-mapping"><span class="octicon octicon-link"></span></a>Tip Reminder: Setting an aesthetic to a value instead of a mapping</h3>
+<p>Notice that we used <code>geom_point(alpha = 0.5)</code>. As the previous tip mentioned, using a setting outside of the <code>aes()</code> function will cause this value to be used for all points, which is what we want in this case. But just like any other aesthetic setting, <em>alpha</em> can also be mapped to a variable in the data. For example, we can give a different transparency to each continent with <code>geom_point(aes(alpha = continent))</code>.</p>
+</blockquote><p>We can fit a simple relationship to the data by adding another layer, <code>geom_smooth</code>:</p><pre><code class="{r hljs"><span class="hljs-attribute">ggplot</span>(data = gapminder, aes(x = gdpPercap, y = lifeExp)) +
+  <span class="hljs-attribute">geom_point</span>() + scale_x_log10() + geom_smooth(method=<span class="hljs-string">"lm"</span>)
+</code></pre><p>We can make the line thicker by <em>setting</em> the <strong>size</strong> aesthetic in the <code>geom_smooth</code> layer:</p><pre><code class="{r hljs"><span class="hljs-attribute">ggplot</span>(data = gapminder, aes(x = gdpPercap, y = lifeExp)) +
+  <span class="hljs-attribute">geom_point</span>() + scale_x_log10() + geom_smooth(method=<span class="hljs-string">"lm"</span>, size=1.5)
+</code></pre><p>There are two ways an <em>aesthetic</em> can be specified. Here we <em>set</em> the <strong>size</strong> aesthetic by passing it as an argument to <code>geom_smooth</code>. Previously in the lesson we’ve used the <code>aes</code> function to define a <em>mapping</em> between data variables and their visual representation.</p><blockquote>
+<h3 id="challenge-4a"><a class="anchor hidden-xs" href="#challenge-4a" title="challenge-4a"><span class="octicon octicon-link"></span></a>Challenge 4a</h3>
+<p>Modify the color and size of the points on the point layer in the previous example.</p>
+<p>Hint: do not use the <code>aes</code> function.</p>
+<blockquote>
+<h4 id="solution-to-challenge-4a"><a class="anchor hidden-xs" href="#solution-to-challenge-4a" title="solution-to-challenge-4a"><span class="octicon octicon-link"></span></a>Solution to challenge 4a</h4>
+<p>Modify the color and size of the points on the point layer in the previous example.</p>
+<p>Hint: do not use the <code>aes</code> function.</p>
+<pre><code class="{r hljs"><span class="hljs-attribute">ggplot</span>(data = gapminder, aes(x = gdpPercap, y = lifeExp)) +
+ <span class="hljs-attribute">geom_point</span>(size=3, color=<span class="hljs-string">"orange"</span>) + scale_x_log10() +
+ <span class="hljs-attribute">geom_smooth</span>(method=<span class="hljs-string">"lm"</span>, size=1.5)
+</code></pre>
+</blockquote>
+</blockquote><blockquote>
+<h3 id="challenge-4b"><a class="anchor hidden-xs" href="#challenge-4b" title="challenge-4b"><span class="octicon octicon-link"></span></a>Challenge 4b</h3>
+<p>Modify your solution to Challenge 4a so that the points are now a different shape and are colored by continent with new trendlines.  Hint: The color argument can be used inside the aesthetic.</p>
+<blockquote>
+<h4 id="solution-to-challenge-4b"><a class="anchor hidden-xs" href="#solution-to-challenge-4b" title="solution-to-challenge-4b"><span class="octicon octicon-link"></span></a>Solution to challenge 4b</h4>
+<p>Modify Challenge 4 so that the points are now a different shape and are colored by continent with new trendlines.</p>
+<p>Hint: The color argument can be used inside the aesthetic.</p>
+<pre><code class="{r hljs"><span class="hljs-attribute">ggplot</span>(data = gapminder, aes(x = gdpPercap, y = lifeExp, color = continent)) +
+<span class="hljs-attribute">geom_point</span>(size=3, shape=17) + scale_x_log10() +
+<span class="hljs-attribute">geom_smooth</span>(method=<span class="hljs-string">"lm"</span>, size=1.5)
+</code></pre>
+</blockquote>
+</blockquote><h2 id="multi-panel-figures"><a class="anchor hidden-xs" href="#multi-panel-figures" title="multi-panel-figures"><span class="octicon octicon-link"></span></a>Multi-panel figures</h2><p>Earlier we visualized the change in life expectancy over time across all countries in one plot. Alternatively, we can split this out over multiple panels by adding a layer of <strong>facet</strong> panels. Focusing only on those countries with names that start with the letter “A” or “Z”.</p><blockquote>
+<h3 id="tip"><a class="anchor hidden-xs" href="#tip" title="tip"><span class="octicon octicon-link"></span></a>Tip</h3>
+<p>We start by subsetting the data.  We use the <code>substr</code> function to pull out a part of a character string; in this case, the letters that occur in positions <code>start</code> through <code>stop</code>, inclusive, of the <code>gapminder$country</code> vector. The operator <code>%in%</code> allows us to make multiple comparisons rather than write out long subsetting conditions (in this case, <code>starts.with %in% c("A", "Z")</code> is equivalent to <code>starts.with == "A" | starts.with == "Z"</code>)</p>
+</blockquote><pre><code class="{r hljs">starts.with &lt;- <span class="hljs-keyword">substr</span>(gapminder$country, start = <span class="hljs-number">1</span>, stop = <span class="hljs-number">1</span>)
+az.countries &lt;- gapminder[starts.with %in% c(<span class="hljs-string">"A"</span>, <span class="hljs-string">"Z"</span>), ]
+ggplot(data = az.countries, aes(<span class="hljs-keyword">x</span> = year, <span class="hljs-keyword">y</span> = lifeExp, color=continent)) +
+  geom_line() + facet_wrap( ~ country)
+</code></pre><p>The <code>facet_wrap</code> layer took a “formula” as its argument, denoted by the tilde (~). This tells R to draw a panel for each unique value in the country column of the gapminder dataset.</p><h2 id="modifying-text"><a class="anchor hidden-xs" href="#modifying-text" title="modifying-text"><span class="octicon octicon-link"></span></a>Modifying text</h2><p>To clean this figure up for a publication we need to change some of the text elements. The x-axis is too cluttered, and the y axis should read “Life expectancy”, rather than the column name in the data frame.</p><p>We can do this by adding a couple of different layers. The <strong>theme</strong> layer controls the axis text, and overall text size. Labels for the axes, plot  title and any legend can be set using the <code>labs</code> function. Legend titles are set using the same names we used in the <code>aes</code> specification. Thus below the color legend title is set using <code>color = "Continent"</code>, while the title  of a fill legend would be set using <code>fill = "MyTitle"</code>.</p><pre><code class="{r hljs">ggplot(data = az.countries, aes(x = year, y = lifeExp, color=continent)) +
+  geom_line() + facet_wrap( ~ country) +
+  labs(
+    x = <span class="hljs-string">"Year"</span>,              <span class="hljs-comment"># x axis title</span>
+    y = <span class="hljs-string">"Life expectancy"</span>,   <span class="hljs-comment"># y axis title</span>
+    title = <span class="hljs-string">"Figure 1"</span>,      <span class="hljs-comment"># main title of figure</span>
+    color = <span class="hljs-string">"Continent"</span>      <span class="hljs-comment"># title of legend</span>
+  ) +
+  theme(axis.text.x=element_blank(), axis.ticks.x=element_blank())
+</code></pre><p>This is a taste of what you can do with <code>ggplot2</code>. RStudio provides a really useful <a href="http://www.rstudio.com/wp-content/uploads/2015/03/ggplot2-cheatsheet.pdf" target="_blank">cheat sheet</a> of the different layers available, and more extensive documentation is available on the <a href="http://docs.ggplot2.org/current/" target="_blank">ggplot2 website</a>. Finally, if you have no idea how to change something, a quick Google search will usually send you to a relevant question and answer on Stack Overflow with reusable code to modify!</p><blockquote>
+<h3 id="challenge-5"><a class="anchor hidden-xs" href="#challenge-5" title="challenge-5"><span class="octicon octicon-link"></span></a>Challenge 5</h3>
+<p>Create a density plot of GDP per capita, filled by continent.</p>
+<p>Advanced:</p>
+<ul>
+<li>Transform the x axis to better visualise the data spread.</li>
+<li>Add a facet layer to panel the density plots by year.</li>
+</ul>
+<blockquote>
+<h4 id="solution-to-challenge-5"><a class="anchor hidden-xs" href="#solution-to-challenge-5" title="solution-to-challenge-5"><span class="octicon octicon-link"></span></a>Solution to challenge 5</h4>
+<p>Create a density plot of GDP per capita, filled by continent.</p>
+<p>Advanced:</p>
+<ul>
+<li>Transform the x axis to better visualise the data spread.</li>
+<li>Add a facet layer to panel the density plots by year.</li>
+</ul>
+<pre><code class="{r hljs">ggplot(data = gapminder, aes(x = gdpPercap, fill=continent)) +
+ geom_density(alpha=0.6) + facet_wrap( ~ year) + scale_x_log10()
+</code></pre>
+</blockquote>
+</blockquote><h2 id="demo-some-more-advanced-features"><a class="anchor hidden-xs" href="#demo-some-more-advanced-features" title="demo-some-more-advanced-features"><span class="octicon octicon-link"></span></a>Demo some more advanced features</h2><p>If time permits, the following interactive activities can be run to showcase some of the cool stuff you can do with <code>ggplot</code> and <code>R</code>.</p><p>Let’s do this in terms of one of the cooler visualizations directly from the <a href="https://www.gapminder.org/tools/#_chart-type=bubbles" target="_blank"><strong>Gapminder</strong> website</a>. This visualization shows the relationship between income and life expectancy for all nations in the dataset. The points are scaled in size based on the population size of the nation and colored based on continent. So there is a lot of details here.</p><blockquote>
+<h3 id="challenge-6a"><a class="anchor hidden-xs" href="#challenge-6a" title="challenge-6a"><span class="octicon octicon-link"></span></a>Challenge 6a</h3>
+<p>Can we create something pretty similar using <code>ggplot</code>? What variables in our dataset needs to be mapped to what aesthetics to achive this?</p>
+<blockquote>
+<h4 id="solution-to-challenge-6a"><a class="anchor hidden-xs" href="#solution-to-challenge-6a" title="solution-to-challenge-6a"><span class="octicon octicon-link"></span></a>Solution to challenge 6a</h4>
+<p>x = income<br>
+y = life expectancy<br>
+size = population size<br>
+color = continent</p>
+</blockquote>
+<h3 id="challenge-6b"><a class="anchor hidden-xs" href="#challenge-6b" title="challenge-6b"><span class="octicon octicon-link"></span></a>Challenge 6b</h3>
+<p>Use these mappings to produce a similar plot for 2007. Bonus points if you can use <code>dplyr</code> to do it.</p>
+<blockquote>
+<h4 id="solution-fo-challenge-6b"><a class="anchor hidden-xs" href="#solution-fo-challenge-6b" title="solution-fo-challenge-6b"><span class="octicon octicon-link"></span></a>Solution fo challenge 6b</h4>
+<pre><code class="{r hljs"><span class="hljs-comment"># note that you can save plot to variable and plot later</span>
+library(<span class="hljs-string">"dplyr"</span>)
+bubble &lt;- gapminder %&gt;%
+   filter(year == <span class="hljs-number">2007</span>) %&gt;%
+   ggplot(aes(<span class="hljs-keyword">x</span> = gdpPercap,
+              <span class="hljs-keyword">y</span> = lifeExp,
+              color = continent,
+              size = <span class="hljs-keyword">pop</span>)) +
+     geom_point() + 
+     labs(
+       <span class="hljs-keyword">x</span> = <span class="hljs-string">"Income"</span>,            <span class="hljs-comment"># x axis title</span>
+       <span class="hljs-keyword">y</span> = <span class="hljs-string">"Life expectancy"</span>    <span class="hljs-comment"># y axis title</span>
+     )
+bubble
+</code></pre>
+</blockquote>
+</blockquote><p>This is great, but you’ll notice that it this plot is static, while the online one is interactive. Turns out is is actually pretty easy to create an interactive version when you know a little <code>ggplot</code>, using a package called <code>plotly</code>. Let’s demo this.</p><pre><code class="{r hljs">install.packages("plotly")
+library("plotly<span class="hljs-comment">#)</span>
+
+<span class="hljs-comment"># plotly has built in support for `ggplot` objects</span>
+bubble &lt;- gapminder %&gt;%
+    filter(year == 2007) %&gt;%
+    ggplot(aes(x = gdpPercap,
+               y = lifeExp,
+               color = continent,
+               size = pop,
+               text = country)) +
+    geom_point() + 
+    labs(
+        x = "Income",            <span class="hljs-comment"># x axis title</span>
+        y = "Life expectancy"    <span class="hljs-comment"># y axis title</span>
+    )
+    
+ggplotly(bubble)
+</code></pre><p>Now you’ll see an interactive plot, which is really awesome for exploring and for showing off your data.</p><p>The last thing we’re missing from the <strong>Gapminder</strong> plot is the fact that it will cycle through years. We can’t mimic this with with interactive plots at each time, but we can loop through plots for each year and make a movie-like animation. A pretty simple loop will do this.</p><pre><code class="{r hljs"><span class="hljs-keyword">for</span> (yr <span class="hljs-keyword">in</span> unique(gapminder<span class="hljs-variable">$year</span>)) {
+   bubble &lt;- gapminder %&gt;%
+      filter(year == yr) %&gt;% 
+      ggplot(aes(x = gdpPercap,
+                 y = lifeExp,
+                 color = continent,
+                 size = pop)) +
+         geom_point() + 
+         labs(
+           x = <span class="hljs-string">"Income"</span>, 
+           y = <span class="hljs-string">"Life expectancy"</span>,
+           title = yr
+         ) 
+    plot(bubble)    <span class="hljs-comment"># need to do this in loops</span>
+    Sys.sleep(5)    <span class="hljs-comment"># 5 sec pause between plots</span>
+}
+</code></pre><p>Very cool. See how easy it is to produce fancy plots in<code>R</code>!</p></div>
+    <div class="ui-toc dropup unselectable hidden-print" style="display:none;">
+        <div class="pull-right dropdown">
+            <a id="tocLabel" class="ui-toc-label btn btn-default" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false" title="Table of content">
+                <i class="fa fa-bars"></i>
+            </a>
+            <ul id="ui-toc" class="ui-toc-dropdown dropdown-menu" aria-labelledby="tocLabel">
+                <div class="toc"><ul class="nav"><li class=""><a href="#software-carpentry-workshop-lesson4-data-visualization-with-ggplot2">Software Carpentry Workshop: Lesson4: Data visualization with ggplot2</a><ul class="nav"><li><a href="#introduction">Introduction</a></li><li><a href="#objectives">Objectives</a></li><li><a href="#background">Background</a></li><li><a href="#quickstart">Quickstart</a></li><li><a href="#layers">Layers</a></li><li><a href="#transformations-and-statistics">Transformations and statistics</a></li><li><a href="#multi-panel-figures">Multi-panel figures</a></li><li><a href="#modifying-text">Modifying text</a></li><li><a href="#demo-some-more-advanced-features">Demo some more advanced features</a></li></ul></li></ul></div><div class="toc-menu"><a class="expand-toggle" href="#">Expand all</a><a class="back-to-top" href="#">Back to top</a><a class="go-to-bottom" href="#">Go to bottom</a></div>
+            </ul>
+        </div>
+    </div>
+    <div id="ui-toc-affix" class="ui-affix-toc ui-toc-dropdown unselectable hidden-print" data-spy="affix" style="top:17px;display:none;"  >
+        <div class="toc"><ul class="nav"><li class=""><a href="#software-carpentry-workshop-lesson4-data-visualization-with-ggplot2">Software Carpentry Workshop: Lesson4: Data visualization with ggplot2</a><ul class="nav"><li><a href="#introduction">Introduction</a></li><li><a href="#objectives">Objectives</a></li><li><a href="#background">Background</a></li><li><a href="#quickstart">Quickstart</a></li><li><a href="#layers">Layers</a></li><li><a href="#transformations-and-statistics">Transformations and statistics</a></li><li><a href="#multi-panel-figures">Multi-panel figures</a></li><li><a href="#modifying-text">Modifying text</a></li><li><a href="#demo-some-more-advanced-features">Demo some more advanced features</a></li></ul></li></ul></div><div class="toc-menu"><a class="expand-toggle" href="#">Expand all</a><a class="back-to-top" href="#">Back to top</a><a class="go-to-bottom" href="#">Go to bottom</a></div>
+    </div>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.1.1/jquery.min.js" integrity="sha256-hVVnYaiADRTO2PzUGmuLJr8BLUSjGIZsDYGmIJLv2b8=" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha256-U5ZEeKfGNOja007MMD3YBI0A3OSZOQbeG6z2f2Y0hu8=" crossorigin="anonymous" defer></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gist-embed/2.6.0/gist-embed.min.js" integrity="sha256-KyF2D6xPIJUW5sUDSs93vWyZm+1RzIpKCexxElmxl8g=" crossorigin="anonymous" defer></script>
+    <script>
+        var markdown = $(".markdown-body");
+        //smooth all hash trigger scrolling
+        function smoothHashScroll() {
+            var hashElements = $("a[href^='#']").toArray();
+            for (var i = 0; i < hashElements.length; i++) {
+                var element = hashElements[i];
+                var $element = $(element);
+                var hash = element.hash;
+                if (hash) {
+                    $element.on('click', function (e) {
+                        // store hash
+                        var hash = this.hash;
+                        if ($(hash).length <= 0) return;
+                        // prevent default anchor click behavior
+                        e.preventDefault();
+                        // animate
+                        $('body, html').stop(true, true).animate({
+                            scrollTop: $(hash).offset().top
+                        }, 100, "linear", function () {
+                            // when done, add hash to url
+                            // (default click behaviour)
+                            window.location.hash = hash;
+                        });
+                    });
+                }
+            }
+        }
+
+        smoothHashScroll();
+        var toc = $('.ui-toc');
+        var tocAffix = $('.ui-affix-toc');
+        var tocDropdown = $('.ui-toc-dropdown');
+        //toc
+        tocDropdown.click(function (e) {
+            e.stopPropagation();
+        });
+
+        var enoughForAffixToc = true;
+
+        function generateScrollspy() {
+            $(document.body).scrollspy({
+                target: ''
+            });
+            $(document.body).scrollspy('refresh');
+            if (enoughForAffixToc) {
+                toc.hide();
+                tocAffix.show();
+            } else {
+                tocAffix.hide();
+                toc.show();
+            }
+            $(document.body).scroll();
+        }
+
+        function windowResize() {
+            //toc right
+            var paddingRight = parseFloat(markdown.css('padding-right'));
+            var right = ($(window).width() - (markdown.offset().left + markdown.outerWidth() - paddingRight));
+            toc.css('right', right + 'px');
+            //affix toc left
+            var newbool;
+            var rightMargin = (markdown.parent().outerWidth() - markdown.outerWidth()) / 2;
+            //for ipad or wider device
+            if (rightMargin >= 133) {
+                newbool = true;
+                var affixLeftMargin = (tocAffix.outerWidth() - tocAffix.width()) / 2;
+                var left = markdown.offset().left + markdown.outerWidth() - affixLeftMargin;
+                tocAffix.css('left', left + 'px');
+            } else {
+                newbool = false;
+            }
+            if (newbool != enoughForAffixToc) {
+                enoughForAffixToc = newbool;
+                generateScrollspy();
+            }
+        }
+        $(window).resize(function () {
+            windowResize();
+        });
+        $(document).ready(function () {
+            windowResize();
+            generateScrollspy();
+        });
+
+        //remove hash
+        function removeHash() {
+            window.location.hash = '';
+        }
+
+        var backtotop = $('.back-to-top');
+        var gotobottom = $('.go-to-bottom');
+
+        backtotop.click(function (e) {
+            e.preventDefault();
+            e.stopPropagation();
+            if (scrollToTop)
+                scrollToTop();
+            removeHash();
+        });
+        gotobottom.click(function (e) {
+            e.preventDefault();
+            e.stopPropagation();
+            if (scrollToBottom)
+                scrollToBottom();
+            removeHash();
+        });
+
+        var toggle = $('.expand-toggle');
+        var tocExpand = false;
+
+        checkExpandToggle();
+        toggle.click(function (e) {
+            e.preventDefault();
+            e.stopPropagation();
+            tocExpand = !tocExpand;
+            checkExpandToggle();
+        })
+
+        function checkExpandToggle () {
+            var toc = $('.ui-toc-dropdown .toc');
+            var toggle = $('.expand-toggle');
+            if (!tocExpand) {
+                toc.removeClass('expand');
+                toggle.text('Expand all');
+            } else {
+                toc.addClass('expand');
+                toggle.text('Collapse all');
+            }
+        }
+
+        function scrollToTop() {
+            $('body, html').stop(true, true).animate({
+                scrollTop: 0
+            }, 100, "linear");
+        }
+
+        function scrollToBottom() {
+            $('body, html').stop(true, true).animate({
+                scrollTop: $(document.body)[0].scrollHeight
+            }, 100, "linear");
+        }
+    </script>
+</body>
+
+</html>
